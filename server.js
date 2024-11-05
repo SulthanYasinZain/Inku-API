@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -13,7 +14,6 @@ console.log("API_KEY:", process.env.API_KEY);
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, "../client/dist")));
 app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
@@ -59,10 +59,13 @@ app.post("/generate", async (req, res) => {
   }
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-});
+app.use(cors({
+  origin: "https://inku-delta.vercel.app/", // URL Vercel kamu
+  methods: "GET,POST",
+}));
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+
