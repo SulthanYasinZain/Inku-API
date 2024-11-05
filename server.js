@@ -60,7 +60,7 @@ app.post("/generate", async (req, res) => {
 });
 
 app.use(cors({
-  origin: "https://inku-delta.vercel.app/", // URL Vercel kamu
+  origin: "https://inku-five.vercel.app/", // URL Vercel kamu
   methods: "GET,POST",
 }));
 
