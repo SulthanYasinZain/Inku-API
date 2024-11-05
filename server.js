@@ -14,6 +14,12 @@ console.log("API_KEY:", process.env.API_KEY);
 const app = express();
 const port = process.env.PORT || 3000;
 
+app.use(cors({
+  origin: "https://inku-five.vercel.app",
+  methods: "GET,POST",
+}));
+
+
 app.use(express.json());
 
 const genAI = new GoogleGenerativeAI(process.env.API_KEY);
@@ -40,6 +46,7 @@ const history = [
   },
 ];
 
+
 app.post("/generate", async (req, res) => {
   const { prompt } = req.body;
 
@@ -59,10 +66,7 @@ app.post("/generate", async (req, res) => {
   }
 });
 
-app.use(cors({
-  origin: "https://inku-five.vercel.app/chat", // URL Vercel kamu
-  methods: "GET,POST",
-}));
+
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
